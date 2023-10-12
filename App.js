@@ -8,17 +8,17 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 import { Card } from 'react-native-paper';
 
+import { NavigationContainer } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+
+
 /* Importerer mine komponenter */
 import FrisørSignup from './components/FrisørSignup';
 import FrisørLogin from './components/FrisørLogin';
 import FrisørProfil from './components/FrisørProfil';
+import MyProfile from './components/stackcomponents/MyProfile';
+import MyProfileStack from './components/MyProfileStack';
 
-/* Importerer stack funktioner
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import Settings from './components/stackcomponents/Settings'; */
-
-// const Stack = createStackNavigator();
 
 /* Her laver jeg en database konfiguration*/
 const firebaseConfig = {
@@ -68,7 +68,60 @@ logge firebase on i terminalen, så jeg ved at den kører */
     };
   }, []);
 
-  const Hjem = () => {
+
+  const Tab = createBottomTabNavigator();
+
+  const LoggedInScreen = () => {
+    return (
+      <NavigationContainer>
+        <Tab.Navigator screenOptions={({ route }) => ({
+          tabBarActiveTintColor: "blue",
+          tabBarInactiveTintColor: "gray",
+          tabBarStyle: [
+        {
+          display: "flex"
+        },
+          null
+          ],
+          tabBarIcon: ({ color, size }) => {
+            if (route.name === 'Home') {
+              return (
+                  <Ionicons
+                      name={'home-outline'}
+                      size={size}
+                      color={color}
+                  />
+              );
+            } else if (route.name === 'Settings') {
+              return (
+                  <Ionicons
+                      name='md-settings-outline'
+                      size={size}
+                      color={color}
+                  />
+              );
+            }
+            else{
+              return (
+                  <Ionicons
+                      name='md-list-outline'
+                      size={size}
+                      color={color}
+                  />
+              );
+            }
+          },
+        })}
+        >
+          <Tab.Screen name="Settings" children={()=><FrisørProfil prop={settingsScreenText}/>} />
+          <Tab.Screen name="Home" children={()=><MyProfile prop={homeScreenText}/>} />
+          <Tab.Screen name="Stack" component={MyProfileStack} />
+        </Tab.Navigator>
+      </NavigationContainer>
+  );  
+  }
+  
+  const DefaultPage = () => {
     return(
         <View style={styles.container}>
           {/* I nedenstående tekst komponent har jeg tilføjet et header objekt, så jeg kunne
@@ -85,25 +138,14 @@ logge firebase on i terminalen, så jeg ved at den kører */
           <Card style={{padding:20, margin: 20}}>
             <FrisørLogin />
           </Card>
-
+  
         </View>
     )
   }
   /* Hvis brugeren er aktiv vil de blive omdirigeret til frisørprofil siden, og hvis ikke
-  vil de blive sendt tilbage til 'Hjem' siden, hvor login og signup formen findes */
-  return user.loggedIn ? <FrisørProfil /> : <Hjem/> ;
-
-/* Her tjekker vi om brugeren er logget ind, og hvis ja, vil de blive sendt til FrisørProfil,
-og hvis ikke, vil de blive sendt tilbage til Hjem */
-  /* return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name="Home" component={FrisørProfil} />
-        <Stack.Screen name="Profile" component={Settings} />
-      </Stack.Navigator>
-    </NavigationContainer>
-  );*/
-
+  vil de blive sendt tilbage til 'DefaultPage' siden, hvor login og signup formen findes */
+  return user.loggedIn ? <LoggedInScreen /> : <DefaultPage/> ;
+  // return <LoggedInScreen/>
 }
 
 const styles = StyleSheet.create({
