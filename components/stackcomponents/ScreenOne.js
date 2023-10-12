@@ -1,34 +1,33 @@
 import {Button, StyleSheet, Text, View} from "react-native";
 import * as React from "react";
 
-//Identisk med ScreenOne
-
 /*
-*ScreenTwo er den ene af de tre screens i StackNavigatoren
-* ScreenTwoPræsenterer en tekst, der beskriver, hvor brugern befinder sig samt
-* returnerer to <Button/> som benyttes til henholdsvis at navigere tilbage til sidste Screen og
+*ScreenOne er den ene af de tre screens i StackNavigatoren
+* ScreenOne præsenterer en tekst, der beskriver, hvor brugeren befinder sig samt
+* returnerer to <Button/>, som benyttes til henholdsvis at navigere tilbage til sidste Screen og
 * navigere ind til den anden screen i stackComponents
-* Slutteligt er der inkludere stylig til komponenterne
+* Slutteligt er der inkluderet styling til komponenterne
  */
-function MySettings({navigation}) {
+function ScreenOne({ navigation}) {
     return (
         <View style={styles.container}>
-            <Text style={styles.text}>Screen Two!</Text>
-            <View style={{display: 'flex', justifyContent: 'space-evenly', flexDirection: 'row'}}>
+            <Text style={styles.text}>Screen One!</Text>
+            <View style={{display: 'flex', justifyContent: 'space-evenly', flexDirection: 'column'}}>
                 <View style={{margin: '2%'}} >
                     <Button title="Go Back" onPress={() => navigation.goBack() } />
                 </View>
                 <View style={{margin: '2%'}} >
-                    <Button title="Go To Screen One" onPress={() => navigation.navigate('ScreenOne')}  />
+                    <Button title="Go To Screen Two" onPress={() => navigation.navigate('ScreenTwo')}  />
                 </View>
             </View>
         </View>
     );
 }
 //Eksport af Screen således den kan importeres- og bruges i andres komponenter
-export default MySettings
+export default ScreenOne
 
-//Lokal styling til brug i ScreenTwo
+
+//Lokal styling til brug i ScreenOne
 const styles = StyleSheet.create({
     container: {
         borderColor: 'red',

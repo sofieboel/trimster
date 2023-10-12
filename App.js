@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 /* Importerer de services jeg skal bruge fra firebase */
 import { getApps, initializeApp } from "firebase/app";
@@ -16,8 +17,8 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import FrisørSignup from './components/FrisørSignup';
 import FrisørLogin from './components/FrisørLogin';
 import FrisørProfil from './components/FrisørProfil';
-import MyProfile from './components/stackcomponents/MyProfile';
 import MyProfileStack from './components/MyProfileStack';
+import HomeScreen from './components/HomeScreen';
 
 
 /* Her laver jeg en database konfiguration*/
@@ -69,7 +70,9 @@ logge firebase on i terminalen, så jeg ved at den kører */
   }, []);
 
 
-  const Tab = createBottomTabNavigator();
+const Tab = createBottomTabNavigator();
+const homeScreenText = "Dette er HomeScreen!"
+const settingsScreenText = "Dette er SettingsScreen!"
 
   const LoggedInScreen = () => {
     return (
@@ -114,7 +117,7 @@ logge firebase on i terminalen, så jeg ved at den kører */
         })}
         >
           <Tab.Screen name="Settings" children={()=><FrisørProfil prop={settingsScreenText}/>} />
-          <Tab.Screen name="Home" children={()=><MyProfile prop={homeScreenText}/>} />
+          <Tab.Screen name="Home" children={()=><HomeScreen prop={homeScreenText}/>} />
           <Tab.Screen name="Stack" component={MyProfileStack} />
         </Tab.Navigator>
       </NavigationContainer>
